@@ -2,8 +2,10 @@ package ymcris.ipc2.practica1.hyruleevents.dbconnection;
 
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 
 /**
  * Clase DBConnection es la clase encargada de realizar la conexión con MySQL en
@@ -135,6 +137,17 @@ public class DBConnection {
             System.out.println("SQLState: " + e.getSQLState() + " Error code: " + e.getErrorCode() + "\n");
             e.printStackTrace();
         }
+    }
+
+    private boolean existeTabla(String nombreTabla) throws SQLException {
+        DatabaseMetaData metaData = connection.getMetaData();
+        try (ResultSet result = metaData.getTables(null, null, nombreTabla, null)) {
+            return result.next();
+        }
+    }
+    
+    public boolean existe() {
+        return true;
     }
 
 }

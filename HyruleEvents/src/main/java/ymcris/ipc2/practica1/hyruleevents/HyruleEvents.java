@@ -1,6 +1,7 @@
 package ymcris.ipc2.practica1.hyruleevents;
 
 import ymcris.ipc2.practica1.hyruleevents.dbconnection.DBConnection;
+import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
 
 /**
  * Hyrule's Events es un programa en el cual se realizan gestiones de eventos,
@@ -25,5 +26,7 @@ public class HyruleEvents {
         dBConection.connect();
         dBConection.crearTablasIniciales();
         dBConection.crearTablasSecundarias();
+        JFMenuPrincipal menu = new JFMenuPrincipal();
+        menu.setVisible(true);
     }
 }
