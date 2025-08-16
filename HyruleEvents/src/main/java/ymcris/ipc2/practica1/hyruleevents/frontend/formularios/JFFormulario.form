@@ -269,7 +269,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="txtCampo2" min="-2" pref="394" max="-2" attributes="0"/>
+                                  <Component id="txtTituloEvento" min="-2" pref="394" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -278,7 +278,7 @@
                                   </Group>
                                   <EmptySpace min="104" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="txtCampo3" pref="394" max="32767" attributes="0"/>
+                                      <Component id="txtUbicacionEvento" pref="394" max="32767" attributes="0"/>
                                       <Component id="spnCupo" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -289,7 +289,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                                  <Component id="txtCampo1" min="-2" pref="394" max="-2" attributes="0"/>
+                                  <Component id="txtCodigoEvento" min="-2" pref="394" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace pref="147" max="32767" attributes="0"/>
@@ -324,7 +324,7 @@
                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtCampo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtCodigoEvento" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -345,11 +345,11 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtCampo2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtTituloEvento" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtCampo3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtUbicacionEvento" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -376,9 +376,9 @@
                     <Property name="text" type="java.lang.String" value="C&#xf3;digo del evento"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtCampo1">
+                <Component class="javax.swing.JTextField" name="txtCodigoEvento">
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCampo1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCodigoEventoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel2">
@@ -445,6 +445,9 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cBTiposDeEventosActionPerformed"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
@@ -460,7 +463,7 @@
                     <Property name="text" type="java.lang.String" value="T&#xed;tulo del evento"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtCampo2">
+                <Component class="javax.swing.JTextField" name="txtTituloEvento">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel7">
                   <Properties>
@@ -473,7 +476,7 @@
                     <Property name="text" type="java.lang.String" value="Ubicaci&#xf3;n"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtCampo3">
+                <Component class="javax.swing.JTextField" name="txtUbicacionEvento">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel8">
                   <Properties>
@@ -1247,7 +1250,7 @@
                                           <Group type="102" alignment="1" attributes="0">
                                               <Component id="jLabel62" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="133" max="32767" attributes="0"/>
-                                              <Component id="txtCodigoEvento" min="-2" pref="394" max="-2" attributes="0"/>
+                                              <Component id="txtCodigoEventoValidarInscripcion" min="-2" pref="394" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jLabel58" min="-2" max="-2" attributes="0"/>
@@ -1299,7 +1302,7 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtCodigoEvento" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtCodigoEventoValidarInscripcion" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel62" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
@@ -1370,7 +1373,7 @@
                     <Property name="text" type="java.lang.String" value="C&#xf3;digo del evento"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtCodigoEvento">
+                <Component class="javax.swing.JTextField" name="txtCodigoEventoValidarInscripcion">
                 </Component>
                 <Component class="javax.swing.JButton" name="btnValidarInscripcion">
                   <Properties>
@@ -2674,6 +2677,9 @@
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="JFFormulario_spnFechaInicialReporteEventos"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel42">
                   <Properties>

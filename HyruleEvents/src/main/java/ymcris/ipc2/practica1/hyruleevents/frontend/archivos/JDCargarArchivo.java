@@ -3,6 +3,7 @@ package ymcris.ipc2.practica1.hyruleevents.frontend.archivos;
 import javax.swing.JOptionPane;
 import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
 import ymcris.ipc2.practica1.hyruleevents.frontend.log.JDLog;
+import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionArchivo;
 
 /**
  *
@@ -10,8 +11,11 @@ import ymcris.ipc2.practica1.hyruleevents.frontend.log.JDLog;
  */
 public class JDCargarArchivo extends javax.swing.JFrame {
 
-    public JDCargarArchivo() {
+    private ValidacionArchivo validacionA;
+
+    public JDCargarArchivo(ValidacionArchivo validacionA) {
         initComponents();
+        this.validacionA = validacionA;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Hyrule's Events");
@@ -232,7 +236,6 @@ public class JDCargarArchivo extends javax.swing.JFrame {
         String nombreCarpeta = FCArchivoSalida.getCurrentDirectory().getName();
         String rutaArchivo = FCArchivoSalida.getCurrentDirectory().getAbsolutePath();
         if (nombreCarpeta != null) {
-
             txtArchivoSalida.setText(rutaArchivo);
             txtArchivoSalida.setEnabled(false);
             System.out.println("Hace algo");
@@ -245,15 +248,22 @@ public class JDCargarArchivo extends javax.swing.JFrame {
         if (txtArchivoEntrada.getText().isEmpty() || txtArchivoSalida.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "BURRO, debes seleccionar la ruta de ambos", "ERROR", JOptionPane.WARNING_MESSAGE);
         } else {
-            System.out.println("NMMS AHORA QUÉ?");
-            this.dispose();
-            new JDLog(this).setVisible(true);
+            validacionA.setRutaArchivoEntrada(txtArchivoEntrada.getText());
+            validacionA.setRutaCarpetaSalida(txtArchivoSalida.getText());
+            validacionA.obtenerArchivo();
+            if (validacionA.todoEnOrden()) {
+                this.dispose();
+                validacionA.contenidoTexto();
+                new JDLog(this, validacionA).setVisible(true);
+            }else {
+                JOptionPane.showMessageDialog(null, "Burro, el archivo no debe estar vacio", "Error", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         this.dispose();
-        new JFMenuPrincipal().setVisible(true);
+        new JFMenuPrincipal(validacionA.getConnection()).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

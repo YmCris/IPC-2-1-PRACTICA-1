@@ -1,13 +1,16 @@
 package ymcris.ipc2.practica1.hyruleevents.frontend.log;
 
 import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
+import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionArchivo;
 
 /**
  *
  * @author YmCris
  */
 public class JDLog extends javax.swing.JDialog {
-
+    
+    private ValidacionArchivo validacion;
+    
     public JDLog(java.awt.Frame parent) {
         super(parent);
         initComponents();
@@ -16,7 +19,19 @@ public class JDLog extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.setTitle("Registro de instrucciones");
     }
-
+    
+    public JDLog(java.awt.Frame parent, ValidacionArchivo validacion) {
+        super(parent);
+        initComponents();
+        this.setModal(true);
+        this.validacion = validacion;
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setTitle("Registro de instrucciones");
+        lblNombreArchivo.setText(validacion.getArchivoEntrada().getName());
+        lblRutaArchivo.setText(validacion.getArchivoEntrada().getPath());
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -309,7 +324,7 @@ public class JDLog extends javax.swing.JDialog {
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         this.dispose();
-        new JFMenuPrincipal().setVisible(true);
+        new JFMenuPrincipal(validacion.getConnection()).setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -341,4 +356,9 @@ public class JDLog extends javax.swing.JDialog {
     private javax.swing.JLabel lblRutaArchivo;
     private javax.swing.JPanel pnlLog;
     // End of variables declaration//GEN-END:variables
+
+    public ValidacionArchivo getValidacion() {
+        return validacion;
+    }
+    
 }

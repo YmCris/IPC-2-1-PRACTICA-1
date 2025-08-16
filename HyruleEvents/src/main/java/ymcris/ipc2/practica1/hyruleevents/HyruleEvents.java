@@ -1,6 +1,6 @@
 package ymcris.ipc2.practica1.hyruleevents;
 
-import ymcris.ipc2.practica1.hyruleevents.dbconnection.DBConnection;
+import ymcris.ipc2.practica1.hyruleevents.backend.db.DBConnection;
 import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
 
 /**
@@ -26,7 +26,7 @@ public class HyruleEvents {
         dBConection.connect();
         dBConection.crearTablasIniciales();
         dBConection.crearTablasSecundarias();
-        JFMenuPrincipal menu = new JFMenuPrincipal();
+        JFMenuPrincipal menu = new JFMenuPrincipal(dBConection.getConnection());
         menu.setVisible(true);
     }
 }

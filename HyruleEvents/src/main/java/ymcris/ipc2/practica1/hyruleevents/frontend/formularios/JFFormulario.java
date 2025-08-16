@@ -1,6 +1,9 @@
 package ymcris.ipc2.practica1.hyruleevents.frontend.formularios;
 
-import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionFormulario;
 
 /**
  *
@@ -8,8 +11,11 @@ import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
  */
 public class JFFormulario extends javax.swing.JFrame {
 
-    public JFFormulario() {
+    private ValidacionFormulario validacionF;
+
+    public JFFormulario(ValidacionFormulario validacionF) {
         initComponents();
+        this.validacionF = validacionF;
         this.setResizable(false);
         this.setTitle("Formularios");
         this.setLocationRelativeTo(null);
@@ -29,7 +35,7 @@ public class JFFormulario extends javax.swing.JFrame {
         JTPFormularios = new javax.swing.JTabbedPane();
         pnlFormulario1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtCampo1 = new javax.swing.JTextField();
+        txtCodigoEvento = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -37,9 +43,9 @@ public class JFFormulario extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         cBTiposDeEventos = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        txtCampo2 = new javax.swing.JTextField();
+        txtTituloEvento = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtCampo3 = new javax.swing.JTextField();
+        txtUbicacionEvento = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         spnCupo = new javax.swing.JSpinner();
         btnRegistrarEvento = new javax.swing.JButton();
@@ -88,7 +94,7 @@ public class JFFormulario extends javax.swing.JFrame {
         jLabel58 = new javax.swing.JLabel();
         txtCorreoParticipanteValidarInscripción = new javax.swing.JTextField();
         jLabel62 = new javax.swing.JLabel();
-        txtCodigoEvento = new javax.swing.JTextField();
+        txtCodigoEventoValidarInscripcion = new javax.swing.JTextField();
         btnValidarInscripcion = new javax.swing.JButton();
         pnlFormulario6 = new javax.swing.JPanel();
         jLabel59 = new javax.swing.JLabel();
@@ -267,9 +273,9 @@ public class JFFormulario extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Código del evento");
 
-        txtCampo1.addActionListener(new java.awt.event.ActionListener() {
+        txtCodigoEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCampo1ActionPerformed(evt);
+                txtCodigoEventoActionPerformed(evt);
             }
         });
 
@@ -294,6 +300,11 @@ public class JFFormulario extends javax.swing.JFrame {
         jLabel5.setText("Tipo evento");
 
         cBTiposDeEventos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CHARLA", "CONGRESO", "TALLER", "DEBATE" }));
+        cBTiposDeEventos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cBTiposDeEventosActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -344,14 +355,14 @@ public class JFFormulario extends javax.swing.JFrame {
                     .addGroup(pnlFormulario1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCampo2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtTituloEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
                         .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCampo3, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                            .addComponent(txtUbicacionEvento, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                             .addComponent(spnCupo)
                             .addGroup(pnlFormulario1Layout.createSequentialGroup()
                                 .addGap(15, 15, 15)
@@ -359,7 +370,7 @@ public class JFFormulario extends javax.swing.JFrame {
                     .addGroup(pnlFormulario1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(74, 74, 74)
-                        .addComponent(txtCampo1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(147, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -385,7 +396,7 @@ public class JFFormulario extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addGap(75, 75, 75)
                 .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCampo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(20, 20, 20)
                 .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -401,10 +412,10 @@ public class JFFormulario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtCampo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTituloEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCampo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUbicacionEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -847,7 +858,7 @@ public class JFFormulario extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario5Layout.createSequentialGroup()
                                     .addComponent(jLabel62)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtCodigoEventoValidarInscripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(pnlFormulario5Layout.createSequentialGroup()
                                     .addComponent(jLabel58)
                                     .addGap(74, 74, 74)
@@ -884,7 +895,7 @@ public class JFFormulario extends javax.swing.JFrame {
                     .addComponent(jLabel58))
                 .addGap(18, 18, 18)
                 .addGroup(pnlFormulario5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigoEventoValidarInscripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel62))
                 .addGap(128, 128, 128)
                 .addComponent(btnValidarInscripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1679,7 +1690,7 @@ public class JFFormulario extends javax.swing.JFrame {
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         this.dispose();
-        new JFMenuPrincipal().setVisible(true);
+        //new JFMenuPrincipal().setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed
 
     private void btnMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenu1ActionPerformed
@@ -1687,7 +1698,13 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMenu1ActionPerformed
 
     private void btnRegistrarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarEventoActionPerformed
-        // TODO add your handling code here:
+        if (txtCodigoEvento.getText().isBlank() || txtCodigoEvento.getText().isEmpty()
+                || txtTituloEvento.getText().isBlank() || txtTituloEvento.getText().isEmpty()
+                || txtUbicacionEvento.getText().isBlank() || txtUbicacionEvento.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCodigoEvento.getText(), new SimpleDateFormat("dd/MM/yyyy").format(spnFecha.getValue()), cBTiposDeEventos.getSelectedItem().toString(), txtTituloEvento.getText(), txtUbicacionEvento.getText(), spnCupo.getValue().toString()});
     }//GEN-LAST:event_btnRegistrarEventoActionPerformed
 
     private void txtCorreoAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoAsistenciaActionPerformed
@@ -1695,7 +1712,12 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoAsistenciaActionPerformed
 
     private void btnRegistrarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarAsistenciaActionPerformed
-        // TODO add your handling code here:
+        if (txtCorreoAsistencia.getText().isBlank() || txtCorreoAsistencia.getText().isEmpty()
+                || txtCodigoActividadAsistencia.getText().isBlank() || txtCodigoActividadAsistencia.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCorreoAsistencia.getText(), txtCodigoActividadAsistencia.getText()});
     }//GEN-LAST:event_btnRegistrarAsistenciaActionPerformed
 
     private void txtCodigoEventoReporteParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoReporteParticipantesActionPerformed
@@ -1703,11 +1725,16 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoEventoReporteParticipantesActionPerformed
 
     private void btnReporteParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteParticipantesActionPerformed
-        // TODO add your handling code here:
+        if (txtCodigoEventoReporteParticipantes.getText().isBlank() || txtCodigoEventoReporteParticipantes.getText().isEmpty()
+                || txtInstitucionDeProcedenciaReporteParticipantes.getText().isBlank() || txtInstitucionDeProcedenciaReporteParticipantes.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCodigoEventoReporteParticipantes.getText(), cbTipoDeParticipanteReporteParticipantes.getSelectedItem().toString(), txtInstitucionDeProcedenciaReporteParticipantes.getText()});
     }//GEN-LAST:event_btnReporteParticipantesActionPerformed
 
     private void btnReporteDeEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteDeEventosActionPerformed
-        // TODO add your handling code here:
+        validacionF.obtenerContenido(new String[]{cbTipoEventosReporteEventos.getSelectedItem().toString(), new SimpleDateFormat("dd/MM/yyyy").format(spnFechaInicialReporteEventos.getValue()), new SimpleDateFormat("dd/MM/yyyy").format(spnFechaFinalReporteEventos.getValue()), spnValorInicialReporteEventos.getValue().toString(), spnValorFinalReporteEventos.getValue().toString()});
     }//GEN-LAST:event_btnReporteDeEventosActionPerformed
 
     private void txtCodigoEventoReporteActividadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoReporteActividadesActionPerformed
@@ -1715,7 +1742,12 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoEventoReporteActividadesActionPerformed
 
     private void btnReporteActividadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActividadesActionPerformed
-        // TODO add your handling code here:
+        if (txtCodigoEventoReporteActividades.getText().isBlank() || txtCodigoEventoReporteActividades.getText().isEmpty()
+                || txtCorreoPonenteReporteActividades.getText().isBlank() || txtCorreoPonenteReporteActividades.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCodigoEventoReporteActividades.getText(), cbTipoDeActividadReporteDeActividades.getSelectedItem().toString(), txtCorreoPonenteReporteActividades.getText()});
     }//GEN-LAST:event_btnReporteActividadesActionPerformed
 
     private void txtCorreoParticipanteValidarInscripciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoParticipanteValidarInscripciónActionPerformed
@@ -1723,7 +1755,12 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoParticipanteValidarInscripciónActionPerformed
 
     private void btnValidarInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarInscripcionActionPerformed
-        // TODO add your handling code here:
+        if (txtCorreoParticipanteValidarInscripción.getText().isBlank() || txtCorreoParticipanteValidarInscripción.getText().isEmpty()
+                || txtCodigoEventoValidarInscripcion.getText().isBlank() || txtCodigoEventoValidarInscripcion.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCorreoParticipanteValidarInscripción.getText(), txtCodigoEventoValidarInscripcion.getText()});
     }//GEN-LAST:event_btnValidarInscripcionActionPerformed
 
     private void txtCorreoDelParticipantePagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoDelParticipantePagoActionPerformed
@@ -1731,7 +1768,12 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoDelParticipantePagoActionPerformed
 
     private void btnRealizarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPagoActionPerformed
-        // TODO add your handling code here:
+        if (txtCorreoDelParticipantePago.getText().isBlank() || txtCorreoDelParticipantePago.getText().isEmpty()
+                || txtCodigoEventoPago.getText().isBlank() || txtCodigoEventoPago.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCorreoDelParticipantePago.getText(), txtCodigoEventoPago.getText(), cbMetodoDePago.getSelectedItem().toString(), spnMonto.getValue().toString()});
     }//GEN-LAST:event_btnRealizarPagoActionPerformed
 
     private void txtCorreoParticipanteInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoParticipanteInscripcionActionPerformed
@@ -1739,15 +1781,29 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoParticipanteInscripcionActionPerformed
 
     private void btnRealizarInscipcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarInscipcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRealizarInscipcionActionPerformed
+        if (txtCorreoParticipanteInscripcion.getText().isBlank() || txtCorreoParticipanteInscripcion.getText().isEmpty()
+                || txtCodigoEventoInscripcion.getText().isBlank() || txtCodigoEventoInscripcion.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCorreoParticipanteInscripcion.getText(), txtCodigoEventoInscripcion.getText(), cbTipoDeInscripcion.getSelectedItem().toString()});
+    }
 
+    /*
+        }    }//GEN-LAST:event_btnRealizarInscipcionActionPerformed
+*/
     private void txtNombreCompletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreCompletoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreCompletoActionPerformed
 
     private void btnRegistrarParticipanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarParticipanteActionPerformed
-        // TODO add your handling code here:
+        if (txtNombreCompleto.getText().isBlank() || txtNombreCompleto.getText().isEmpty()
+                || txtInstitucion.getText().isBlank() || txtInstitucion.getText().isEmpty()
+                || txtCorreo.getText().isBlank() || txtCorreo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtNombreCompleto.getText(), cBTipoDeParticipante.getSelectedItem().toString(), txtInstitucion.getText(), txtCorreo.getText()});
     }//GEN-LAST:event_btnRegistrarParticipanteActionPerformed
 
     private void btnMenu12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenu12ActionPerformed
@@ -1758,9 +1814,9 @@ public class JFFormulario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoEventoInscripcionActionPerformed
 
-    private void txtCampo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCampo1ActionPerformed
+    private void txtCodigoEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCampo1ActionPerformed
+    }//GEN-LAST:event_txtCodigoEventoActionPerformed
 
     private void txtCodigoEventoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoPagoActionPerformed
         // TODO add your handling code here:
@@ -1771,7 +1827,16 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCodigoEventoActividadActionPerformed
 
     private void btnRegistrarActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActividadActionPerformed
-        // TODO add your handling code here:
+        if (txtCodigoActividad.getText().isBlank() || txtCodigoActividad.getText().isEmpty()
+                || txtCodigoEventoActividad.getText().isBlank() || txtCodigoEventoActividad.getText().isEmpty()
+                || txtTituloActividad.getText().isBlank() || txtTituloActividad.getText().isEmpty()
+                || txtCorreoPonente.getText().isBlank() || txtCorreoPonente.getText().isEmpty()
+                || txtHoraInicio.getText().isBlank() || txtHoraInicio.getText().isEmpty()
+                || txtHoraFin.getText().isBlank() || txtHoraFin.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCodigoActividad.getText(), txtCodigoEventoActividad.getText(), cbTipoDeActividad.getSelectedItem().toString(), txtTituloActividad.getText(), txtCorreoPonente.getText(), txtHoraInicio.getText(), txtHoraFin.getText(), spnCupoActividad.getValue().toString()});
     }//GEN-LAST:event_btnRegistrarActividadActionPerformed
 
     private void txtCodigoActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActividadActionPerformed
@@ -1791,12 +1856,21 @@ public class JFFormulario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCorreoCertificadoActionPerformed
 
     private void btnSolicitarCertificadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarCertificadoActionPerformed
-        // TODO add your handling code here:
+        if (txtCorreoCertificado.getText().isBlank() || txtCorreoCertificado.getText().isEmpty()
+                || txtCodigoEventoCertificado.getText().isBlank() || txtCodigoEventoCertificado.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        validacionF.obtenerContenido(new String[]{txtCorreoCertificado.getText(), txtCodigoEventoCertificado.getText()});
     }//GEN-LAST:event_btnSolicitarCertificadoActionPerformed
 
     private void cbTipoDeParticipanteReporteParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoDeParticipanteReporteParticipantesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbTipoDeParticipanteReporteParticipantesActionPerformed
+
+    private void cBTiposDeEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBTiposDeEventosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cBTiposDeEventosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1921,9 +1995,6 @@ public class JFFormulario extends javax.swing.JFrame {
     private javax.swing.JSpinner spnMonto;
     private javax.swing.JSpinner spnValorFinalReporteEventos;
     private javax.swing.JSpinner spnValorInicialReporteEventos;
-    private javax.swing.JTextField txtCampo1;
-    private javax.swing.JTextField txtCampo2;
-    private javax.swing.JTextField txtCampo3;
     private javax.swing.JTextField txtCodigoActividad;
     private javax.swing.JTextField txtCodigoActividadAsistencia;
     private javax.swing.JTextField txtCodigoEvento;
@@ -1933,6 +2004,7 @@ public class JFFormulario extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodigoEventoPago;
     private javax.swing.JTextField txtCodigoEventoReporteActividades;
     private javax.swing.JTextField txtCodigoEventoReporteParticipantes;
+    private javax.swing.JTextField txtCodigoEventoValidarInscripcion;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtCorreoAsistencia;
     private javax.swing.JTextField txtCorreoCertificado;
@@ -1947,6 +2019,8 @@ public class JFFormulario extends javax.swing.JFrame {
     private javax.swing.JTextField txtInstitucionDeProcedenciaReporteParticipantes;
     private javax.swing.JTextField txtNombreCompleto;
     private javax.swing.JTextField txtTituloActividad;
+    private javax.swing.JTextField txtTituloEvento;
+    private javax.swing.JTextField txtUbicacionEvento;
     // End of variables declaration//GEN-END:variables
 
 }
