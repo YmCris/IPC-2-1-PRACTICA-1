@@ -1,4 +1,4 @@
-package ymcris.ipc2.practica1.hyruleevents.dbconnection;
+package ymcris.ipc2.practica1.hyruleevents.backend.db;
 
 import java.sql.Statement;
 import java.sql.Connection;
@@ -144,6 +144,10 @@ public class DBConnection {
         try (ResultSet result = metaData.getTables(null, null, nombreTabla, null)) {
             return result.next();
         }
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
     
     public boolean existe() {
