@@ -1,11 +1,11 @@
 package ymcris.ipc2.practica1.hyruleevents.backend.db;
 
 import java.sql.Statement;
+import java.sql.ResultSet;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.DatabaseMetaData;
 
 /**
  * Clase DBConnection es la clase encargada de realizar la conexión con MySQL en
@@ -18,19 +18,20 @@ import java.sql.ResultSet;
  */
 public class DBConnection {
 
+    // VARIABLES DE REFERENCIA -------------------------------------------------
+    private DBQuery query;
+    private DBInsert insert;
+    private DBUpdate update;
+    private Connection connection;
+
     // CONSTANTES --------------------------------------------------------------
     private static final String IP = "localhost";
     private static final int PUERTO = 3306;
     private static final String SCHEMA = "hyrule";
     private static final String USER_NAME = "pruebas";
     private static final String PASSWORD = "12345";
-    public static final String URL = "jdbc:mysql://"
-            + IP + ":" + PUERTO + "/" + SCHEMA;
-    public static final String URL_FATAL = "jdbc:mysql://"
-            + IP + ":" + PUERTO + "/" + SCHEMA + "?allowMultiQueries=true";
-
-    // VARIABLES DE REFERENCIA -------------------------------------------------
-    private Connection connection;
+    public static final String URL = "jdbc:mysql://" + IP + ":" + PUERTO + "/" + SCHEMA;
+    public static final String URL_FATAL = "jdbc:mysql://" + IP + ":" + PUERTO + "/" + SCHEMA + "?allowMultiQueries=true";
 
     // MÉTODOS CONCRETOS -------------------------------------------------------
     /**
@@ -44,6 +45,10 @@ public class DBConnection {
             connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
             System.out.println("Esquema: " + connection.getSchema());
             System.out.println("Catalogo: " + connection.getCatalog());
+            insert = new DBInsert(connection);
+            query = new DBQuery(connection);
+            update = new DBUpdate(connection, query);
+
         } catch (SQLException e) {
             System.out.println("Ha ocurrido un error del tipo " + e.getClass().getName() + " al realizar la conexión a la base de datos porque: " + e.getMessage() + "\n");
             System.out.println("SQLState: " + e.getSQLState() + " Error code: " + e.getErrorCode() + "\n");
@@ -90,10 +95,18 @@ public class DBConnection {
                 + "CONSTRAINT fk_codigo_evento_pago FOREIGN KEY(codigo_evento) REFERENCES evento(codigo_evento)"
                 + ")";
         try (Statement stateTablaEvento = connection.createStatement(); Statement stateTablaParticipante = connection.createStatement(); Statement stateTablaInscripcion = connection.createStatement(); Statement stateTablaPago = connection.createStatement()) {
-            stateTablaEvento.executeUpdate(sqlEvento);
-            stateTablaParticipante.executeUpdate(sqlParticipante);
-            stateTablaInscripcion.executeUpdate(sqlInscripcion);
-            stateTablaPago.executeUpdate(sqlPago);
+            if (!existeTabla("evento")) {
+                stateTablaEvento.executeUpdate(sqlEvento);
+            }
+            if (!existeTabla("participante")) {
+                stateTablaParticipante.executeUpdate(sqlParticipante);
+            }
+            if (!existeTabla("inscripcion")) {
+                stateTablaInscripcion.executeUpdate(sqlInscripcion);
+            }
+            if (!existeTabla("pago")) {
+                stateTablaPago.executeUpdate(sqlPago);
+            }
         } catch (SQLException e) {
             System.out.println("Ha ocurrido un error del tipo " + e.getClass().getName() + " al crear las tablas (1) en la DB porque: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState() + " Error code: " + e.getErrorCode() + "\n");
@@ -129,9 +142,15 @@ public class DBConnection {
                 + "CONSTRAINT fk_codigo_evento_certificado FOREIGN KEY(codigo_evento) REFERENCES evento(codigo_evento)"
                 + ")";
         try (Statement stateTablaActividad = connection.createStatement(); Statement stateTablaAsistencia = connection.createStatement(); Statement stateTablaCertificado = connection.createStatement()) {
-            stateTablaActividad.executeUpdate(sqlActividad);
-            stateTablaAsistencia.executeUpdate(sqlAsistencia);
-            stateTablaCertificado.executeUpdate(sqlCertificado);
+            if (!existeTabla("actividad")) {
+                stateTablaActividad.executeUpdate(sqlActividad);
+            }
+            if (!existeTabla("asistencia")) {
+                stateTablaAsistencia.executeUpdate(sqlAsistencia);
+            }
+            if (!existeTabla("certificado")) {
+                stateTablaCertificado.executeUpdate(sqlCertificado);
+            }
         } catch (SQLException e) {
             System.out.println("Ha ocurrido un error del tipo " + e.getClass().getName() + " al crear las tablas (2) en la DB porque: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState() + " Error code: " + e.getErrorCode() + "\n");
@@ -139,19 +158,36 @@ public class DBConnection {
         }
     }
 
-    private boolean existeTabla(String nombreTabla) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
-        try (ResultSet result = metaData.getTables(null, null, nombreTabla, null)) {
-            return result.next();
+    public boolean existeTabla(String nombreTabla) {
+        try {
+            DatabaseMetaData meta = connection.getMetaData();
+            ResultSet rs = meta.getTables(null, null, nombreTabla, null);
+            return rs.next(); // true si existe
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
     public Connection getConnection() {
         return connection;
     }
-    
+
     public boolean existe() {
         return true;
+    }
+
+    // GETTERS -----------------------------------------------------------------
+    public DBInsert getInsert() {
+        return insert;
+    }
+
+    public DBUpdate getUpdate() {
+        return update;
+    }
+
+    public DBQuery getQuery() {
+        return query;
     }
 
 }
