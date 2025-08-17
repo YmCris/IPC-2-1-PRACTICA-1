@@ -1,10 +1,10 @@
 package ymcris.ipc2.practica1.hyruleevents.backend.db;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 /**
  * Clase DBInsert es la clase encargada de introducir información a la base de
@@ -62,7 +62,7 @@ public class DBInsert {
         }
     }
 
-    public void insertarInscripcion(String correoParticipante, String codigoEvento, String tipoInscripcion, boolean validada) {
+    public void insertarPreInscripcion(String correoParticipante, String codigoEvento, String tipoInscripcion, boolean validada) {
         try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERTAR_INSCRIPCION)) {
             stmt.setString(1, correoParticipante);
             stmt.setString(2, codigoEvento);
