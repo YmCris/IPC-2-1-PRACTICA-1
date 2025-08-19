@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
-import java.sql.DatabaseMetaData;
 
 /**
  * Clase DBConnection es la clase encargada de realizar la conexión con MySQL en
@@ -45,10 +44,9 @@ public class DBConnection {
             connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
             System.out.println("Esquema: " + connection.getSchema());
             System.out.println("Catalogo: " + connection.getCatalog());
-            insert = new DBInsert(connection);
             query = new DBQuery(connection);
+            insert = new DBInsert(connection, query);
             update = new DBUpdate(connection, query);
-
         } catch (SQLException e) {
             System.out.println("Ha ocurrido un error del tipo " + e.getClass().getName() + " al realizar la conexión a la base de datos porque: " + e.getMessage() + "\n");
             System.out.println("SQLState: " + e.getSQLState() + " Error code: " + e.getErrorCode() + "\n");
@@ -69,6 +67,7 @@ public class DBConnection {
                 + "ubicacion VARCHAR(149) NOT NULL,"
                 + "cupo_disponible_evento INT NOT NULL,"
                 + "cupo_maximo_evento INT NOT NULL,"
+                + "costo_evento DOUBLE NOT NULL,"
                 + "CONSTRAINT pk_codigo_evento PRIMARY KEY (codigo_evento)"
                 + ")";
         String sqlParticipante = "CREATE TABLE participante ("
@@ -159,22 +158,16 @@ public class DBConnection {
     }
 
     public boolean existeTabla(String nombreTabla) {
-        try {
-            DatabaseMetaData meta = connection.getMetaData();
-            ResultSet rs = meta.getTables(null, null, nombreTabla, null);
-            return rs.next(); // true si existe
+        try (ResultSet rs = connection.getMetaData().getTables(null, null, nombreTabla, null);) {
+            return rs.next();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Ha ocurrido un error al intentar averiguar si existe la tabla " + nombreTabla);
             return false;
         }
     }
 
     public Connection getConnection() {
         return connection;
-    }
-
-    public boolean existe() {
-        return true;
     }
 
     // GETTERS -----------------------------------------------------------------

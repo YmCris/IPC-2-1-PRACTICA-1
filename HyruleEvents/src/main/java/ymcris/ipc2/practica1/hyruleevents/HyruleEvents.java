@@ -26,7 +26,7 @@ public class HyruleEvents {
         dBConection.connect();
         dBConection.crearTablasIniciales();
         dBConection.crearTablasSecundarias();
-        JFMenuPrincipal menu = new JFMenuPrincipal(dBConection.getConnection());
+        JFMenuPrincipal menu = new JFMenuPrincipal(dBConection);
         menu.setVisible(true);
     }
 }
