@@ -1,24 +1,29 @@
 package ymcris.ipc2.practica1.hyruleevents.frontend.archivos;
 
 import javax.swing.JOptionPane;
-import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
 import ymcris.ipc2.practica1.hyruleevents.frontend.log.JDLog;
+import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
 import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionArchivo;
+import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionBaseDeDatos;
 
 /**
  *
  * @author YmCris
+ * @see ValidacionArchivo
  */
 public class JDCargarArchivo extends javax.swing.JFrame {
 
+    private JDLog log;
     private ValidacionArchivo validacionA;
 
-    public JDCargarArchivo(ValidacionArchivo validacionA) {
+    public JDCargarArchivo(ValidacionArchivo validacionA, ValidacionBaseDeDatos validacionDB) {
         initComponents();
+        this.log = new JDLog(this, validacionDB);
         this.validacionA = validacionA;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Hyrule's Events");
+        validacionDB.setLog(log);
     }
 
     @SuppressWarnings("unchecked")
@@ -221,9 +226,8 @@ public class JDCargarArchivo extends javax.swing.JFrame {
         if (nombreArchivo.substring(nombreArchivo.length() - 4).equals(".txt")) {
             txtArchivoEntrada.setText(rutaArchivo);
             txtArchivoEntrada.setEnabled(false);
-            System.out.println("Hace algo");
         } else {
-            JOptionPane.showMessageDialog(null, "BURRO, el archivo debe ser un txt", "ERROR", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El archivo debe ser un archivo de texto '.txt'", "ERROR", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_FCArchivoEntradaActionPerformed
 
@@ -238,32 +242,40 @@ public class JDCargarArchivo extends javax.swing.JFrame {
         if (nombreCarpeta != null) {
             txtArchivoSalida.setText(rutaArchivo);
             txtArchivoSalida.setEnabled(false);
-            System.out.println("Hace algo");
         } else {
-            JOptionPane.showMessageDialog(null, "BURRO, la ruta está mal", "ERROR", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "La ruta está mal", "ERROR", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_FCArchivoSalidaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (txtArchivoEntrada.getText().isEmpty() || txtArchivoSalida.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "BURRO, debes seleccionar la ruta de ambos", "ERROR", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debes seleccionar la ruta de ambos", "ERROR", JOptionPane.WARNING_MESSAGE);
         } else {
-            validacionA.setRutaArchivoEntrada(txtArchivoEntrada.getText());
-            validacionA.setRutaCarpetaSalida(txtArchivoSalida.getText());
-            validacionA.obtenerArchivo();
-            if (validacionA.todoEnOrden()) {
-                this.dispose();
-                validacionA.contenidoTexto();
-                new JDLog(this, validacionA).setVisible(true);
-            }else {
-                JOptionPane.showMessageDialog(null, "Burro, el archivo no debe estar vacio", "Error", JOptionPane.WARNING_MESSAGE);
+            if (validacionA.rutasEnOrden(txtArchivoEntrada.getText(), txtArchivoSalida.getText())) {
+                validacionA.setRutaArchivoEntrada(txtArchivoEntrada.getText());
+                validacionA.setRutaCarpetaSalida(txtArchivoSalida.getText());
+                validacionA.obtenerArchivo();
+                if (!validacionA.estaVacio()) {
+                    if (validacionA.formatoDelArchivoEsCorrecto()) {
+                        validacionA.enviarInformacion();
+                        this.dispose();
+                        log.actualizar();
+                        log.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El archivo de texto no tiene el formato que se requiere, por favor, revisarlo", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El archivo de texto no debe estar vacio", "Error", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "La carpeta de salida y el archivo de entrada deben de existir", "Error", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         this.dispose();
-        new JFMenuPrincipal(validacionA.getConnection()).setVisible(true);
+        new JFMenuPrincipal(validacionA.getConnect()).setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

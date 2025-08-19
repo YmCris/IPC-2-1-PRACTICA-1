@@ -3,8 +3,10 @@ package ymcris.ipc2.practica1.hyruleevents.frontend;
 import java.sql.Connection;
 import ymcris.ipc2.practica1.hyruleevents.frontend.archivos.JDCargarArchivo;
 import javax.swing.JOptionPane;
+import ymcris.ipc2.practica1.hyruleevents.backend.db.DBConnection;
 import ymcris.ipc2.practica1.hyruleevents.frontend.formularios.JFFormulario;
 import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionArchivo;
+import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionBaseDeDatos;
 import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionFormulario;
 
 /**
@@ -14,20 +16,28 @@ import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionFormulario;
  * @since Aug 13, 2025
  */
 public class JFMenuPrincipal extends javax.swing.JFrame {
-    
+
     public static final String RUTA_IMAGEN_CASTILLO = "/fondoMenu.png";
-    private Connection connection;
-    
-    public JFMenuPrincipal(Connection connection) {
+    private DBConnection connect;
+    private ValidacionArchivo validacionA;
+    private ValidacionFormulario validacionF;
+    private ValidacionBaseDeDatos validacionDB;
+
+    public JFMenuPrincipal(DBConnection connect) {
         initComponents();
-        this.connection = connection;
+        this.connect = connect;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Hyrule's Events");
         PanelPersonalizado panel = new PanelPersonalizado(pnlFondoMenu, RUTA_IMAGEN_CASTILLO);
         pnlFondoMenu.add(panel).repaint();
+        this.validacionF = new ValidacionFormulario(connect);
+        this.validacionA = new ValidacionArchivo(connect);
+        this.validacionDB = new ValidacionBaseDeDatos(connect, validacionA, validacionF);
+        validacionA.setValidacionDB(validacionDB);
+        validacionF.setValidacionDB(validacionDB);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -184,12 +194,12 @@ public class JFMenuPrincipal extends javax.swing.JFrame {
 
     private void btnArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoActionPerformed
         this.dispose();
-        new JDCargarArchivo(new ValidacionArchivo(connection)).setVisible(true);
+        new JDCargarArchivo(validacionA, validacionDB).setVisible(true);
     }//GEN-LAST:event_btnArchivoActionPerformed
 
     private void btnFormularioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFormularioActionPerformed
         this.dispose();
-        new JFFormulario(new ValidacionFormulario(connection)).setVisible(true);
+        new JFFormulario(validacionF, validacionDB).setVisible(true);
     }//GEN-LAST:event_btnFormularioActionPerformed
 
     private void btnMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMusicaActionPerformed

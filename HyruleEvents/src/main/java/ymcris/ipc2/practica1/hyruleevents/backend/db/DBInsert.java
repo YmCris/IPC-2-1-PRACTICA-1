@@ -18,10 +18,11 @@ import java.sql.PreparedStatement;
 public class DBInsert {
 
     // VARIABLES DE REFERENCIA -------------------------------------------------
+    private DBQuery query;
     private Connection connection;
 
     // CONSTANTES --------------------------------------------------------------
-    private static final String SQL_INSERTAR_EVENTO = "INSERT INTO evento(codigo_evento,fecha, tipo_evento, titulo_evento,ubicacion, cupo_disponible_evento, cupo_maximo_evento) VALUES(?,?,?,?,?,?,?)";
+    private static final String SQL_INSERTAR_EVENTO = "INSERT INTO evento(codigo_evento,fecha, tipo_evento, titulo_evento,ubicacion, cupo_disponible_evento, cupo_maximo_evento, costo_evento) VALUES(?,?,?,?,?,?,?,?)";
     private static final String SQL_INSERTAR_PARTICIPANTE = "INSERT INTO participante(nombre_completo, tipo_participante, institucion_de_procedencia, correo) VALUES(?,?,?,?)";
     private static final String SQL_INSERTAR_INSCRIPCION = "INSERT INTO inscripcion(correo_participante, codigo_evento, tipo_inscripcion, validada) VALUES(?,?,?,?)";
     private static final String SQL_INSERTAR_PAGO = "INSERT INTO pago(correo_participante, codigo_evento, metodo_pago, monto) VALUES(?,?,?,?)";
@@ -30,12 +31,13 @@ public class DBInsert {
     private static final String SQL_INSERTAR_CERTIFICADO = "INSERT INTO certificado(correo_participante, codigo_evento) VALUES(?,?)";
 
     // MÉTODO CONSTRUCTOR ------------------------------------------------------
-    public DBInsert(Connection connection) {
+    public DBInsert(Connection connection, DBQuery query) {
+        this.query = query;
         this.connection = connection;
     }
 
     // MÉTODOS CONCRETOS -------------------------------------------------------
-    public void insertarEvento(String codigoEvento, Date fecha, String tipoEvento, String tituloEvento, String ubicacion, int cupoMaximo) {
+    public void insertarEvento(String codigoEvento, Date fecha, String tipoEvento, String tituloEvento, String ubicacion, int cupoMaximo, double costoEvento) {
         try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERTAR_EVENTO)) {
             stmt.setString(1, codigoEvento);
             stmt.setDate(2, fecha);
@@ -44,6 +46,7 @@ public class DBInsert {
             stmt.setString(5, ubicacion);
             stmt.setInt(6, cupoMaximo);
             stmt.setInt(7, cupoMaximo);
+            stmt.setDouble(8, costoEvento);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Hubo un error al intentar introducir los datos a la base de datos 'evento' porque " + ex.getMessage());
@@ -63,14 +66,16 @@ public class DBInsert {
     }
 
     public void insertarPreInscripcion(String correoParticipante, String codigoEvento, String tipoInscripcion, boolean validada) {
-        try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERTAR_INSCRIPCION)) {
-            stmt.setString(1, correoParticipante);
-            stmt.setString(2, codigoEvento);
-            stmt.setString(3, tipoInscripcion);
-            stmt.setBoolean(4, validada);
-            stmt.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println("Hubo un error al intentar introducir los datos a la base de datos 'inscripcion' porque " + ex.getMessage());
+        if (query.hayCupoDisponibleEvento(codigoEvento) && !query.tienePreInscripcionRegistrada(correoParticipante, codigoEvento)) {
+            try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERTAR_INSCRIPCION)) {
+                stmt.setString(1, correoParticipante);
+                stmt.setString(2, codigoEvento);
+                stmt.setString(3, tipoInscripcion);
+                stmt.setBoolean(4, validada);
+                stmt.executeUpdate();
+            } catch (SQLException ex) {
+                System.out.println("Hubo un error al intentar introducir los datos a la base de datos 'inscripcion' porque " + ex.getMessage());
+            }
         }
     }
 
@@ -104,22 +109,26 @@ public class DBInsert {
     }
 
     public void insertarAsistencia(String correoParticipante, String codigoActividad) {
-        try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERTAR_ASISTENCIA)) {
-            stmt.setString(1, correoParticipante);
-            stmt.setString(2, codigoActividad);
-            stmt.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println("Hubo un error al intentar introducir los datos a la base de datos 'asistencia' porque " + ex.getMessage());
+        if (!query.tieneAsistenciaRegistrada(correoParticipante, codigoActividad)) {
+            try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERTAR_ASISTENCIA)) {
+                stmt.setString(1, correoParticipante);
+                stmt.setString(2, codigoActividad);
+                stmt.executeUpdate();
+            } catch (SQLException ex) {
+                System.out.println("Hubo un error al intentar introducir los datos a la base de datos 'asistencia' porque " + ex.getMessage());
+            }
         }
     }
 
     public void insertarCertificado(String correoParticipante, String codigoEvento) {
-        try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERTAR_CERTIFICADO)) {
-            stmt.setString(1, correoParticipante);
-            stmt.setString(2, codigoEvento);
-            stmt.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println("Hubo un error al intentar introducir los datos a la base de datos 'certificado' porque " + ex.getMessage());
+        if (query.tieneAsistenciaRegistrada(correoParticipante, codigoEvento)) {
+            try (PreparedStatement stmt = connection.prepareStatement(SQL_INSERTAR_CERTIFICADO)) {
+                stmt.setString(1, correoParticipante);
+                stmt.setString(2, codigoEvento);
+                stmt.executeUpdate();
+            } catch (SQLException ex) {
+                System.out.println("Hubo un error al intentar introducir los datos a la base de datos 'certificado' porque " + ex.getMessage());
+            }
         }
     }
 

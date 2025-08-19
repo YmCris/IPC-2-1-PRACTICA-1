@@ -1,7 +1,8 @@
 package ymcris.ipc2.practica1.hyruleevents.backend.archivos;
 
-import java.io.File;
 import java.sql.Connection;
+import ymcris.ipc2.practica1.hyruleevents.backend.db.DBQuery;
+import ymcris.ipc2.practica1.hyruleevents.backend.db.DBInsert;
 import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionArchivo;
 
 /**
@@ -13,7 +14,8 @@ import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionArchivo;
 public class Archivo {
 
     // VARIABLES DE REFERENCIA -------------------------------------------------
-    private File file;
+    private DBQuery query;
+    private DBInsert insert;
     private Connection connection;
     private ValidacionArchivo validacion;
 
@@ -22,21 +24,15 @@ public class Archivo {
 
     // INSTANCIAS --------------------------------------------------------------
     // MÉTODO CONSTRUCTOR ------------------------------------------------------
-    public Archivo(Connection connection, ValidacionArchivo validacion) {
+    public Archivo(Connection connection, ValidacionArchivo validacion, DBQuery query, DBInsert insert) {
+        this.query = query;
+        this.insert = insert;
         this.todoEstaEnOrden = true;
         this.connection = connection;
         this.validacion = validacion;
     }
 
     // MÉTODOS CONCRETOS -------------------------------------------------------
-    // GETTERS -----------------------------------------------------------------
-    public boolean todoEstaEnOrden() {
-        return todoEstaEnOrden;
-    }
-
-    // SETTERS -----------------------------------------------------------------
-    public void setFile(File file) {
-        this.file = file;
-    }
-
+    // ESTOS MÉTODOS INTRODUCEN LA INFORMACIÓN FINAAAL A LA BASE DE DATOS
+    
 }

@@ -1,24 +1,40 @@
 package ymcris.ipc2.practica1.hyruleevents.frontend.formularios;
 
-import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
+import java.text.SimpleDateFormat;
+import ymcris.ipc2.practica1.hyruleevents.frontend.JFMenuPrincipal;
+import ymcris.ipc2.practica1.hyruleevents.frontend.log.JDLog;
+import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionBaseDeDatos;
 import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionFormulario;
 
 /**
  *
  * @author YmCris
+ * @see ValidacionFormulario
  */
 public class JFFormulario extends javax.swing.JFrame {
 
+    private JDLog log;
+    private String contenido;
     private ValidacionFormulario validacionF;
+    private ValidacionBaseDeDatos validacionDB;
 
-    public JFFormulario(ValidacionFormulario validacionF) {
+    public JFFormulario(ValidacionFormulario validacionF, ValidacionBaseDeDatos validacionDB) {
         initComponents();
         this.validacionF = validacionF;
+        this.log = new JDLog(this, validacionDB);
         this.setResizable(false);
         this.setTitle("Formularios");
+        this.validacionDB = validacionDB;
         this.setLocationRelativeTo(null);
+        validacionDB.setLog(log);
+    }
+
+    private void iniciarLog() {
+        validacionDB.setInstrucionFormulario(validacionF.getContenido());
+        validacionDB.almacenarInstruccionDelFormularioEnLaBaseDeDatos();
+        log.añadirRegistroVisible();
+        log.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,6 +66,8 @@ public class JFFormulario extends javax.swing.JFrame {
         spnCupo = new javax.swing.JSpinner();
         btnRegistrarEvento = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        spnMontoEvento = new javax.swing.JSpinner();
         pnlFormulario2 = new javax.swing.JPanel();
         jLabel82 = new javax.swing.JLabel();
         jLabel83 = new javax.swing.JLabel();
@@ -335,12 +353,30 @@ public class JFFormulario extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Ejemplo: \"EVT-001\" 150");
+        jLabel9.setText("Ejemplo: \"EVT-001\",  150");
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("Monto");
+
+        spnMontoEvento.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         javax.swing.GroupLayout pnlFormulario1Layout = new javax.swing.GroupLayout(pnlFormulario1);
         pnlFormulario1.setLayout(pnlFormulario1Layout);
         pnlFormulario1Layout.setHorizontalGroup(
             pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(166, 166, 166))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(370, 370, 370))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(356, 356, 356))))
             .addGroup(pnlFormulario1Layout.createSequentialGroup()
                 .addGap(169, 169, 169)
                 .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -359,31 +395,21 @@ public class JFFormulario extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
                         .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel19))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtUbicacionEvento, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                             .addComponent(spnCupo)
                             .addGroup(pnlFormulario1Layout.createSequentialGroup()
                                 .addGap(15, 15, 15)
-                                .addComponent(btnRegistrarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnRegistrarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(spnMontoEvento)))
                     .addGroup(pnlFormulario1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(74, 74, 74)
                         .addComponent(txtCodigoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(147, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(166, 166, 166))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(370, 370, 370))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFormulario1Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(356, 356, 356))))
         );
         pnlFormulario1Layout.setVerticalGroup(
             pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -421,9 +447,13 @@ public class JFFormulario extends javax.swing.JFrame {
                 .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(spnCupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(100, 100, 100)
+                .addGap(29, 29, 29)
+                .addGroup(pnlFormulario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spnMontoEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
+                .addGap(25, 25, 25)
                 .addComponent(btnRegistrarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         JTPFormularios.addTab("Registrar Eventos", pnlFormulario1);
@@ -1690,186 +1720,178 @@ public class JFFormulario extends javax.swing.JFrame {
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
         this.dispose();
-        //new JFMenuPrincipal().setVisible(true);
+        new JFMenuPrincipal(validacionF.getConnect()).setVisible(true);
     }//GEN-LAST:event_btnMenuActionPerformed
 
     private void btnMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenu1ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnMenu1ActionPerformed
 
     private void btnRegistrarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarEventoActionPerformed
-        if (txtCodigoEvento.getText().isBlank() || txtCodigoEvento.getText().isEmpty()
-                || txtTituloEvento.getText().isBlank() || txtTituloEvento.getText().isEmpty()
-                || txtUbicacionEvento.getText().isBlank() || txtUbicacionEvento.getText().isEmpty()) {
+        if (txtCodigoEvento.getText().isBlank() || txtCodigoEvento.getText().isEmpty() || txtCodigoEvento.getText().length() > 7
+                || txtTituloEvento.getText().isBlank() || txtTituloEvento.getText().isEmpty() || txtTituloEvento.getText().length() > 45
+                || txtUbicacionEvento.getText().isBlank() || txtUbicacionEvento.getText().isEmpty() || txtUbicacionEvento.getText().length() > 149) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCodigoEvento.getText(), new SimpleDateFormat("dd/MM/yyyy").format(spnFecha.getValue()), cBTiposDeEventos.getSelectedItem().toString(), txtTituloEvento.getText(), txtUbicacionEvento.getText(), spnCupo.getValue().toString()});
+        validacionF.obtenerContenido(new String[]{"REGISTRO_EVENTO", txtCodigoEvento.getText(), new SimpleDateFormat("dd/MM/yyyy").format(spnFecha.getValue()), cBTiposDeEventos.getSelectedItem().toString(), txtTituloEvento.getText(), txtUbicacionEvento.getText(), spnCupo.getValue().toString(), spnMontoEvento.getValue().toString()});
+        iniciarLog();
     }//GEN-LAST:event_btnRegistrarEventoActionPerformed
 
     private void txtCorreoAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoAsistenciaActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoAsistenciaActionPerformed
 
     private void btnRegistrarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarAsistenciaActionPerformed
-        if (txtCorreoAsistencia.getText().isBlank() || txtCorreoAsistencia.getText().isEmpty()
-                || txtCodigoActividadAsistencia.getText().isBlank() || txtCodigoActividadAsistencia.getText().isEmpty()) {
+        if (txtCorreoAsistencia.getText().isBlank() || txtCorreoAsistencia.getText().isEmpty() || txtCorreoAsistencia.getText().length() > 44
+                || txtCodigoActividadAsistencia.getText().isBlank() || txtCodigoActividadAsistencia.getText().isEmpty() || txtCodigoActividadAsistencia.getText().length() > 7) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCorreoAsistencia.getText(), txtCodigoActividadAsistencia.getText()});
+        validacionF.obtenerContenido(new String[]{"ASISTENCIA", txtCorreoAsistencia.getText(), txtCodigoActividadAsistencia.getText()});
+        iniciarLog();
     }//GEN-LAST:event_btnRegistrarAsistenciaActionPerformed
 
     private void txtCodigoEventoReporteParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoReporteParticipantesActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoEventoReporteParticipantesActionPerformed
 
     private void btnReporteParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteParticipantesActionPerformed
-        if (txtCodigoEventoReporteParticipantes.getText().isBlank() || txtCodigoEventoReporteParticipantes.getText().isEmpty()
-                || txtInstitucionDeProcedenciaReporteParticipantes.getText().isBlank() || txtInstitucionDeProcedenciaReporteParticipantes.getText().isEmpty()) {
+        if (txtCodigoEventoReporteParticipantes.getText().isBlank() || txtCodigoEventoReporteParticipantes.getText().isEmpty() || txtCodigoEventoReporteParticipantes.getText().length() > 7
+                || txtInstitucionDeProcedenciaReporteParticipantes.getText().isBlank() || txtInstitucionDeProcedenciaReporteParticipantes.getText().isEmpty() || txtInstitucionDeProcedenciaReporteParticipantes.getText().length() > 149) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCodigoEventoReporteParticipantes.getText(), cbTipoDeParticipanteReporteParticipantes.getSelectedItem().toString(), txtInstitucionDeProcedenciaReporteParticipantes.getText()});
+        validacionF.obtenerContenido(new String[]{"REPORTE_PARTICIPANTES", txtCodigoEventoReporteParticipantes.getText(), cbTipoDeParticipanteReporteParticipantes.getSelectedItem().toString(), txtInstitucionDeProcedenciaReporteParticipantes.getText()});
+        iniciarLog();
     }//GEN-LAST:event_btnReporteParticipantesActionPerformed
 
     private void btnReporteDeEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteDeEventosActionPerformed
-        validacionF.obtenerContenido(new String[]{cbTipoEventosReporteEventos.getSelectedItem().toString(), new SimpleDateFormat("dd/MM/yyyy").format(spnFechaInicialReporteEventos.getValue()), new SimpleDateFormat("dd/MM/yyyy").format(spnFechaFinalReporteEventos.getValue()), spnValorInicialReporteEventos.getValue().toString(), spnValorFinalReporteEventos.getValue().toString()});
+        validacionF.obtenerContenido(new String[]{"REPORTE_EVENTOS", cbTipoEventosReporteEventos.getSelectedItem().toString(), new SimpleDateFormat("dd/MM/yyyy").format(spnFechaInicialReporteEventos.getValue()), new SimpleDateFormat("dd/MM/yyyy").format(spnFechaFinalReporteEventos.getValue()), spnValorInicialReporteEventos.getValue().toString(), spnValorFinalReporteEventos.getValue().toString()});
+        iniciarLog();
     }//GEN-LAST:event_btnReporteDeEventosActionPerformed
 
     private void txtCodigoEventoReporteActividadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoReporteActividadesActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoEventoReporteActividadesActionPerformed
 
     private void btnReporteActividadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActividadesActionPerformed
-        if (txtCodigoEventoReporteActividades.getText().isBlank() || txtCodigoEventoReporteActividades.getText().isEmpty()
-                || txtCorreoPonenteReporteActividades.getText().isBlank() || txtCorreoPonenteReporteActividades.getText().isEmpty()) {
+        if (txtCodigoEventoReporteActividades.getText().isBlank() || txtCodigoEventoReporteActividades.getText().isEmpty() || txtCodigoEventoReporteActividades.getText().length() > 7
+                || txtCorreoPonenteReporteActividades.getText().isBlank() || txtCorreoPonenteReporteActividades.getText().isEmpty() || txtCorreoPonenteReporteActividades.getText().length() > 44) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCodigoEventoReporteActividades.getText(), cbTipoDeActividadReporteDeActividades.getSelectedItem().toString(), txtCorreoPonenteReporteActividades.getText()});
+        validacionF.obtenerContenido(new String[]{"REPORTE_ACTIVIDADES", txtCodigoEventoReporteActividades.getText(), cbTipoDeActividadReporteDeActividades.getSelectedItem().toString(), txtCorreoPonenteReporteActividades.getText()});
+        iniciarLog();
     }//GEN-LAST:event_btnReporteActividadesActionPerformed
 
     private void txtCorreoParticipanteValidarInscripciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoParticipanteValidarInscripciónActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoParticipanteValidarInscripciónActionPerformed
 
     private void btnValidarInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarInscripcionActionPerformed
-        if (txtCorreoParticipanteValidarInscripción.getText().isBlank() || txtCorreoParticipanteValidarInscripción.getText().isEmpty()
-                || txtCodigoEventoValidarInscripcion.getText().isBlank() || txtCodigoEventoValidarInscripcion.getText().isEmpty()) {
+        if (txtCorreoParticipanteValidarInscripción.getText().isBlank() || txtCorreoParticipanteValidarInscripción.getText().isEmpty() || txtCorreoParticipanteValidarInscripción.getText().length() > 44
+                || txtCodigoEventoValidarInscripcion.getText().isBlank() || txtCodigoEventoValidarInscripcion.getText().isEmpty() || txtCodigoEventoValidarInscripcion.getText().length() > 7) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCorreoParticipanteValidarInscripción.getText(), txtCodigoEventoValidarInscripcion.getText()});
+        validacionF.obtenerContenido(new String[]{"VALIDAR_INSCRIPCION", txtCorreoParticipanteValidarInscripción.getText(), txtCodigoEventoValidarInscripcion.getText()});
+        iniciarLog();
     }//GEN-LAST:event_btnValidarInscripcionActionPerformed
 
     private void txtCorreoDelParticipantePagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoDelParticipantePagoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoDelParticipantePagoActionPerformed
 
     private void btnRealizarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarPagoActionPerformed
-        if (txtCorreoDelParticipantePago.getText().isBlank() || txtCorreoDelParticipantePago.getText().isEmpty()
-                || txtCodigoEventoPago.getText().isBlank() || txtCodigoEventoPago.getText().isEmpty()) {
+        if (txtCorreoDelParticipantePago.getText().isBlank() || txtCorreoDelParticipantePago.getText().isEmpty() || txtCorreoDelParticipantePago.getText().length() > 44
+                || txtCodigoEventoPago.getText().isBlank() || txtCodigoEventoPago.getText().isEmpty() || txtCodigoEventoPago.getText().length() > 7) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCorreoDelParticipantePago.getText(), txtCodigoEventoPago.getText(), cbMetodoDePago.getSelectedItem().toString(), spnMonto.getValue().toString()});
+        validacionF.obtenerContenido(new String[]{"PAGO", txtCorreoDelParticipantePago.getText(), txtCodigoEventoPago.getText(), cbMetodoDePago.getSelectedItem().toString(), spnMonto.getValue().toString()});
+        iniciarLog();
     }//GEN-LAST:event_btnRealizarPagoActionPerformed
 
     private void txtCorreoParticipanteInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoParticipanteInscripcionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoParticipanteInscripcionActionPerformed
 
     private void btnRealizarInscipcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarInscipcionActionPerformed
-        if (txtCorreoParticipanteInscripcion.getText().isBlank() || txtCorreoParticipanteInscripcion.getText().isEmpty()
-                || txtCodigoEventoInscripcion.getText().isBlank() || txtCodigoEventoInscripcion.getText().isEmpty()) {
+        if (txtCorreoParticipanteInscripcion.getText().isBlank() || txtCorreoParticipanteInscripcion.getText().isEmpty() || txtCorreoParticipanteInscripcion.getText().length() > 44
+                || txtCodigoEventoInscripcion.getText().isBlank() || txtCodigoEventoInscripcion.getText().isEmpty() || txtCodigoEventoInscripcion.getText().length() > 7) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCorreoParticipanteInscripcion.getText(), txtCodigoEventoInscripcion.getText(), cbTipoDeInscripcion.getSelectedItem().toString()});
+        validacionF.obtenerContenido(new String[]{"INSCRIPCION", txtCorreoParticipanteInscripcion.getText(), txtCodigoEventoInscripcion.getText(), cbTipoDeInscripcion.getSelectedItem().toString()});
+        iniciarLog();
     }
 
     /*
         }    }//GEN-LAST:event_btnRealizarInscipcionActionPerformed
 */
     private void txtNombreCompletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreCompletoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreCompletoActionPerformed
 
     private void btnRegistrarParticipanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarParticipanteActionPerformed
-        if (txtNombreCompleto.getText().isBlank() || txtNombreCompleto.getText().isEmpty()
-                || txtInstitucion.getText().isBlank() || txtInstitucion.getText().isEmpty()
-                || txtCorreo.getText().isBlank() || txtCorreo.getText().isEmpty()) {
+        if (txtNombreCompleto.getText().isBlank() || txtNombreCompleto.getText().isEmpty() || txtNombreCompleto.getText().length() > 44
+                || txtInstitucion.getText().isBlank() || txtInstitucion.getText().isEmpty() || txtInstitucion.getText().length() > 149
+                || txtCorreo.getText().isBlank() || txtCorreo.getText().isEmpty() || txtCorreo.getText().length() > 44) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtNombreCompleto.getText(), cBTipoDeParticipante.getSelectedItem().toString(), txtInstitucion.getText(), txtCorreo.getText()});
+        validacionF.obtenerContenido(new String[]{"REGISTRO_PARTICIPANTE", txtNombreCompleto.getText(), cBTipoDeParticipante.getSelectedItem().toString(), txtInstitucion.getText(), txtCorreo.getText()});
+        iniciarLog();
     }//GEN-LAST:event_btnRegistrarParticipanteActionPerformed
 
     private void btnMenu12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenu12ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnMenu12ActionPerformed
 
     private void txtCodigoEventoInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoInscripcionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoEventoInscripcionActionPerformed
 
     private void txtCodigoEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoEventoActionPerformed
 
     private void txtCodigoEventoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoPagoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoEventoPagoActionPerformed
 
     private void txtCodigoEventoActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoEventoActividadActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoEventoActividadActionPerformed
 
     private void btnRegistrarActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActividadActionPerformed
-        if (txtCodigoActividad.getText().isBlank() || txtCodigoActividad.getText().isEmpty()
-                || txtCodigoEventoActividad.getText().isBlank() || txtCodigoEventoActividad.getText().isEmpty()
-                || txtTituloActividad.getText().isBlank() || txtTituloActividad.getText().isEmpty()
-                || txtCorreoPonente.getText().isBlank() || txtCorreoPonente.getText().isEmpty()
-                || txtHoraInicio.getText().isBlank() || txtHoraInicio.getText().isEmpty()
-                || txtHoraFin.getText().isBlank() || txtHoraFin.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
+        if (txtCodigoActividad.getText().isBlank() || txtCodigoActividad.getText().isEmpty() || txtCodigoActividad.getText().length() > 7
+                || txtCodigoEventoActividad.getText().isBlank() || txtCodigoEventoActividad.getText().isEmpty() || txtCodigoEventoActividad.getText().length() > 7
+                || txtTituloActividad.getText().isBlank() || txtTituloActividad.getText().isEmpty() || txtTituloActividad.getText().length() > 199
+                || txtCorreoPonente.getText().isBlank() || txtCorreoPonente.getText().isEmpty() || txtCorreoPonente.getText().length() > 44
+                || txtHoraInicio.getText().isBlank() || txtHoraInicio.getText().isEmpty() || !txtHoraInicio.getText().trim().substring(2, 3).equals(":") || txtHoraInicio.getText().length() > 5
+                || txtHoraFin.getText().isBlank() || txtHoraFin.getText().isEmpty() || !txtHoraFin.getText().trim().substring(2, 3).equals(":") || txtHoraFin.getText().length() > 5) {
+            JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS Y LAS FECHAS DEBEN DE ESTAR EN FORMATO 'HH:MM'", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCodigoActividad.getText(), txtCodigoEventoActividad.getText(), cbTipoDeActividad.getSelectedItem().toString(), txtTituloActividad.getText(), txtCorreoPonente.getText(), txtHoraInicio.getText(), txtHoraFin.getText(), spnCupoActividad.getValue().toString()});
+        validacionF.obtenerContenido(new String[]{"REGISTRO_ACTIVIDAD", txtCodigoActividad.getText(), txtCodigoEventoActividad.getText(), cbTipoDeActividad.getSelectedItem().toString(), txtTituloActividad.getText(), txtCorreoPonente.getText(), txtHoraInicio.getText().trim(), txtHoraFin.getText().trim(), spnCupoActividad.getValue().toString()});
+        iniciarLog();
     }//GEN-LAST:event_btnRegistrarActividadActionPerformed
 
     private void txtCodigoActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActividadActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActividadActionPerformed
 
     private void txtHoraInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoraInicioActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtHoraInicioActionPerformed
 
     private void txtHoraFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoraFinActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtHoraFinActionPerformed
 
     private void txtCorreoCertificadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoCertificadoActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoCertificadoActionPerformed
 
     private void btnSolicitarCertificadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarCertificadoActionPerformed
-        if (txtCorreoCertificado.getText().isBlank() || txtCorreoCertificado.getText().isEmpty()
-                || txtCodigoEventoCertificado.getText().isBlank() || txtCodigoEventoCertificado.getText().isEmpty()) {
+        if (txtCorreoCertificado.getText().isBlank() || txtCorreoCertificado.getText().isEmpty() || txtCorreoCertificado.getText().length() > 44
+                || txtCodigoEventoCertificado.getText().isBlank() || txtCodigoEventoCertificado.getText().isEmpty() || txtCodigoEventoCertificado.getText().length() > 7) {
             JOptionPane.showMessageDialog(null, "SE TIENEN QUE LLENAR TODOS LOS CAMPOS", "ERROR", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        validacionF.obtenerContenido(new String[]{txtCorreoCertificado.getText(), txtCodigoEventoCertificado.getText()});
+        validacionF.obtenerContenido(new String[]{"CERTIFICADO", txtCorreoCertificado.getText(), txtCodigoEventoCertificado.getText()});
+        iniciarLog();
     }//GEN-LAST:event_btnSolicitarCertificadoActionPerformed
 
     private void cbTipoDeParticipanteReporteParticipantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoDeParticipanteReporteParticipantesActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_cbTipoDeParticipanteReporteParticipantesActionPerformed
 
     private void cBTiposDeEventosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBTiposDeEventosActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_cBTiposDeEventosActionPerformed
 
 
@@ -1909,6 +1931,7 @@ public class JFFormulario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -1993,6 +2016,7 @@ public class JFFormulario extends javax.swing.JFrame {
     private javax.swing.JSpinner spnFechaFinalReporteEventos;
     private javax.swing.JSpinner spnFechaInicialReporteEventos;
     private javax.swing.JSpinner spnMonto;
+    private javax.swing.JSpinner spnMontoEvento;
     private javax.swing.JSpinner spnValorFinalReporteEventos;
     private javax.swing.JSpinner spnValorInicialReporteEventos;
     private javax.swing.JTextField txtCodigoActividad;
