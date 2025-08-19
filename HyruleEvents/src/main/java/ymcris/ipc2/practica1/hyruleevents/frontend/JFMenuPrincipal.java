@@ -1,13 +1,12 @@
 package ymcris.ipc2.practica1.hyruleevents.frontend;
 
-import java.sql.Connection;
-import ymcris.ipc2.practica1.hyruleevents.frontend.archivos.JDCargarArchivo;
 import javax.swing.JOptionPane;
 import ymcris.ipc2.practica1.hyruleevents.backend.db.DBConnection;
-import ymcris.ipc2.practica1.hyruleevents.frontend.formularios.JFFormulario;
 import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionArchivo;
-import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionBaseDeDatos;
 import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionFormulario;
+import ymcris.ipc2.practica1.hyruleevents.frontend.archivos.JDCargarArchivo;
+import ymcris.ipc2.practica1.hyruleevents.frontend.formularios.JFFormulario;
+import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionBaseDeDatos;
 
 /**
  * JFMenuPrincipal es el frame encargado de mostrar el menú principal
@@ -17,15 +16,14 @@ import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionFormulario;
  */
 public class JFMenuPrincipal extends javax.swing.JFrame {
 
-    public static final String RUTA_IMAGEN_CASTILLO = "/fondoMenu.png";
-    private DBConnection connect;
     private ValidacionArchivo validacionA;
     private ValidacionFormulario validacionF;
     private ValidacionBaseDeDatos validacionDB;
 
+    public static final String RUTA_IMAGEN_CASTILLO = "/fondoMenu.png";
+
     public JFMenuPrincipal(DBConnection connect) {
         initComponents();
-        this.connect = connect;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Hyrule's Events");
@@ -36,6 +34,7 @@ public class JFMenuPrincipal extends javax.swing.JFrame {
         this.validacionDB = new ValidacionBaseDeDatos(connect, validacionA, validacionF);
         validacionA.setValidacionDB(validacionDB);
         validacionF.setValidacionDB(validacionDB);
+        validacionF.inicializarAtributos();
     }
 
     @SuppressWarnings("unchecked")
