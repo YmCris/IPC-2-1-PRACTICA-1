@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.io.BufferedReader;
-import ymcris.ipc2.practica1.hyruleevents.backend.archivos.Archivo;
 import ymcris.ipc2.practica1.hyruleevents.backend.db.DBConnection;
 
 /**
@@ -19,7 +18,6 @@ import ymcris.ipc2.practica1.hyruleevents.backend.db.DBConnection;
 public class ValidacionArchivo {
 
     // VARIABLES DE REFERENCIA -------------------------------------------------
-    private Archivo archivo;
     private File archivoEntrada;
     private DBConnection connect;
     private Connection connection;
@@ -31,7 +29,6 @@ public class ValidacionArchivo {
     public ValidacionArchivo(DBConnection connect) {
         this.connect = connect;
         this.connection = connect.getConnection();
-        this.archivo = new Archivo(connection, this, connect.getQuery(), connect.getInsert());
     }
 
     // MÉTODOS CONCRETOS -------------------------------------------------------
@@ -155,28 +152,28 @@ public class ValidacionArchivo {
         int finDeLosParametros = instruccion.lastIndexOf(")");
         String nombreDeLaInstruccion = instruccion.substring(0, inicioDeLosParametros);
         String argumentosDeLaInstruccion = instruccion.substring(inicioDeLosParametros + 1, finDeLosParametros);
-        java.util.List<String> lista = new java.util.ArrayList<>();
+        java.util.List<String> listaDeParametros = new java.util.ArrayList<>();
         StringBuilder temp = new StringBuilder();
         boolean estaDentroDeComillas = false;
         char[] argumentos = argumentosDeLaInstruccion.toCharArray();
         for (char argumento : argumentos) {
             if (argumento == '"') {
-                estaDentroDeComillas = !estaDentroDeComillas; // true
+                estaDentroDeComillas = !estaDentroDeComillas;
             }
-            if (argumento == ',' && !estaDentroDeComillas) { // false
-                lista.add(temp.toString().replace("\"", "")); // quitar comillas
+            if (argumento == ',' && !estaDentroDeComillas) {
+                listaDeParametros.add(temp.toString().replace("\"", ""));
                 temp.setLength(0);
             } else {
                 temp.append(argumento);
             }
         }
         if (temp.length() > 0) {
-            lista.add(temp.toString().replace("\"", ""));
+            listaDeParametros.add(temp.toString().replace("\"", ""));
         }
-        String[] resultado = new String[lista.size() + 1];
+        String[] resultado = new String[listaDeParametros.size() + 1];
         resultado[0] = nombreDeLaInstruccion;
-        for (int i = 0; i < lista.size(); i++) {
-            resultado[i + 1] = lista.get(i);
+        for (int i = 0; i < listaDeParametros.size(); i++) {
+            resultado[i + 1] = listaDeParametros.get(i);
         }
         return resultado;
     }
@@ -212,10 +209,6 @@ public class ValidacionArchivo {
 
     public DBConnection getConnect() {
         return connect;
-    }
-
-    public Archivo getArchivo() {
-        return archivo;
     }
 
     // SETTERS -----------------------------------------------------------------

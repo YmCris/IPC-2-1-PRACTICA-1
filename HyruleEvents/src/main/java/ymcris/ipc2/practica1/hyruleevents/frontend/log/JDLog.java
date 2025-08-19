@@ -12,14 +12,12 @@ import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionBaseDeDatos;
 public class JDLog extends javax.swing.JDialog {
     
     private ValidacionArchivo validacion;
-    private ValidacionBaseDeDatos validacionDB;
     private StringBuilder build = new StringBuilder();
     
     public JDLog(java.awt.Frame parent, ValidacionBaseDeDatos validacionDB) {
         super(parent);
         initComponents();
         this.setModal(true);
-        this.validacionDB = validacionDB;
         this.validacion = validacionDB.getValidacionA();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -116,7 +114,6 @@ public class JDLog extends javax.swing.JDialog {
         txtStack.setColumns(20);
         txtStack.setForeground(new java.awt.Color(255, 255, 255));
         txtStack.setRows(5);
-        txtStack.setEnabled(false);
         jScrollPane1.setViewportView(txtStack);
 
         javax.swing.GroupLayout pnlLogLayout = new javax.swing.GroupLayout(pnlLog);
@@ -124,19 +121,17 @@ public class JDLog extends javax.swing.JDialog {
         pnlLogLayout.setHorizontalGroup(
             pnlLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLogLayout.createSequentialGroup()
-                .addGap(127, 166, Short.MAX_VALUE)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(147, 147, 147))
-            .addGroup(pnlLogLayout.createSequentialGroup()
-                .addGap(275, 275, 275)
-                .addComponent(lblResultado)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(pnlLogLayout.createSequentialGroup()
                 .addGroup(pnlLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlLogLayout.createSequentialGroup()
-                        .addGap(257, 257, 257)
-                        .addComponent(btnMenu))
+                        .addGap(294, 294, 294)
+                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlLogLayout.createSequentialGroup()
+                        .addGap(427, 427, 427)
+                        .addComponent(lblResultado)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlLogLayout.createSequentialGroup()
+                .addGroup(pnlLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlLogLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel3)
@@ -148,9 +143,12 @@ public class JDLog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(lblNombreArchivo))
                     .addGroup(pnlLogLayout.createSequentialGroup()
+                        .addGap(408, 408, 408)
+                        .addComponent(btnMenu))
+                    .addGroup(pnlLogLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 999, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         pnlLogLayout.setVerticalGroup(
             pnlLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,12 +162,12 @@ public class JDLog extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(lblRutaArchivo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
                 .addComponent(lblResultado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMenu)

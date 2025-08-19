@@ -117,7 +117,7 @@ public class DBConnection {
         String sqlActividad = "CREATE TABLE actividad ("
                 + "codigo_actividad VARCHAR(7) NOT NULL,"
                 + "codigo_evento VARCHAR(7) NOT NULL,"
-                + "tipo_actividad VARCHAR(6) NOT NULL,"
+                + "tipo_actividad VARCHAR(50) NOT NULL,"
                 + "titulo_actividad VARCHAR(199) NOT NULL,"
                 + "correo_encargado VARCHAR(45) NOT NULL,"
                 + "hora_inicio TIME NOT NULL,"
@@ -157,6 +157,12 @@ public class DBConnection {
         }
     }
 
+    /**
+     * Método encargado de verificar si existe una tabla en la DB
+     *
+     * @param nombreTabla nombre de la tabla a verificar
+     * @return true si existe
+     */
     public boolean existeTabla(String nombreTabla) {
         try (ResultSet rs = connection.getMetaData().getTables(null, null, nombreTabla, null);) {
             return rs.next();
@@ -166,13 +172,13 @@ public class DBConnection {
         }
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
     // GETTERS -----------------------------------------------------------------
     public DBInsert getInsert() {
         return insert;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 
     public DBUpdate getUpdate() {

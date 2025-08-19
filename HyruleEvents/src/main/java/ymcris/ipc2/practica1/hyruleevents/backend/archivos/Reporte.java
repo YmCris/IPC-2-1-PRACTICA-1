@@ -1,7 +1,7 @@
 package ymcris.ipc2.practica1.hyruleevents.backend.archivos;
 
 /**
- * Clase Reporte
+ * Clase Reporte es la clase encargadad de realizar los reportes en HTML
  *
  * @author YmCris
  * @since Aug 15, 2025
@@ -14,7 +14,7 @@ public class Reporte {
     // MÉTODO CONSTRUCTOR ------------------------------------------------------
     // MÉTODOS CONCRETOS -------------------------------------------------------
     public void generarCertificado(String correo, String codigoEvento, String pathSalida) {
-    
+
     }
 
     public void reporteParticipantes(String codigoEvento, String tipoParticipante, String institucion, String pathSalida) {

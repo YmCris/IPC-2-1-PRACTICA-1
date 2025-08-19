@@ -24,7 +24,7 @@ public class DBUpdate {
 
     // MÉTODO CONSTRUCTOR ------------------------------------------------------
     public DBUpdate(Connection connection, DBQuery query) {
-        this.query=query;
+        this.query = query;
         this.connection = connection;
     }
 

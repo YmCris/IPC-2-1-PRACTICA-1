@@ -1,7 +1,7 @@
 package ymcris.ipc2.practica1.hyruleevents.intermediary;
 
 import ymcris.ipc2.practica1.hyruleevents.backend.db.DBConnection;
-import ymcris.ipc2.practica1.hyruleevents.backend.formularios.Formulario;
+import ymcris.ipc2.practica1.hyruleevents.backend.formularios.DBInsertion;
 
 /**
  * Clase ValidacionFormulario es la clase encargada de verificar que los datos
@@ -15,16 +15,19 @@ public class ValidacionFormulario {
     // VARIABLES DE REFERENCIA -------------------------------------------------
     private String[] contenido;
     private DBConnection connect;
-    private Formulario formulario;
+    private DBInsertion insertion;
     private ValidacionBaseDeDatos validacionDB;
 
     // MÉTODO CONSTRUCTOR ------------------------------------------------------
     public ValidacionFormulario(DBConnection connect) {
         this.connect = connect;
-        this.formulario = new Formulario();
     }
 
     // MÉTODOS CONCRETOS -------------------------------------------------------
+    public void inicializarAtributos() {
+        this.insertion = new DBInsertion(validacionDB.getUpdate(), validacionDB.getInsert());
+    }
+
     /**
      * Método encargado de obtener el contenido de UNA INSTRUCCIÓN con su debido
      * formato
@@ -52,7 +55,11 @@ public class ValidacionFormulario {
     public String[] getContenido() {
         return contenido;
     }
-    
+
+    public DBInsertion getInsertion() {
+        return insertion;
+    }
+
     // SETTERS -----------------------------------------------------------------
     public void setValidacionDB(ValidacionBaseDeDatos validacionDB) {
         this.validacionDB = validacionDB;

@@ -15,7 +15,6 @@ import ymcris.ipc2.practica1.hyruleevents.intermediary.ValidacionFormulario;
 public class JFFormulario extends javax.swing.JFrame {
 
     private JDLog log;
-    private String contenido;
     private ValidacionFormulario validacionF;
     private ValidacionBaseDeDatos validacionDB;
 

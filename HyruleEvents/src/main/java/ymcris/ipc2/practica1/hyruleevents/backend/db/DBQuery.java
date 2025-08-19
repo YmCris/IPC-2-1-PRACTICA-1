@@ -17,12 +17,6 @@ public class DBQuery {
     // VARIABLES DE REFERENCIA -------------------------------------------------
     private Connection connection;
 
-    /*
-    SQL_OBTENER_TIPO_DE_PARTICIPANTE
-    SQL_OBTENER_PRE_INSCRIPCION
-    SQL_OBTENER_ASISTENCIA
-    SQL_OBTENER_PAGO_REALIZADO
-     */
     // CONSTANTES --------------------------------------------------------------
     private static final String SQL_OBTENER_EXISTENCIA_EVENTO = "SELECT 1 FROM evento WHERE codigo_evento = ?";
     private static final String SQL_OBTENER_EXISTENCIA_PARTICIPANTE = "SELECT 1 FROM participante WHERE correo = ?";
@@ -34,6 +28,7 @@ public class DBQuery {
     private static final String SQL_OBTENER_ASISTENCIA = "SELECT 1 FROM asistencia WHERE correo_participante = ? AND codigo_actividad = ?";
     private static final String SQL_OBTENER_TIPO_DE_PARTICIPANTE = "SELECT 1 FROM participante WHERE correo = ? AND tipo_participante = ?";
     private static final String SQL_OBTENER_PRE_INSCRIPCION = "SELECT 1 FROM inscripcion WHERE correo_participante = ? AND codigo_evento = ?";
+    private static final String SQL_OBTENER_VALIDACION_INSCRIPCION = "SELECT 1 FROM inscripcion WHERE correo_participante = ? AND codigo_evento = ? AND validada = ?";
 
     // MÉTODO CONSTRUCTOR ------------------------------------------------------
     public DBQuery(Connection connection) {
@@ -107,7 +102,21 @@ public class DBQuery {
     public int obtenerCupoDisponibleActividad(String codigoActividad) {
         return verificarExistenciaDeTuplaConUnParametroEntero(SQL_OBTENER_CUPO_ACTIVIDAD, "cupo_disponible_actividad", codigoActividad);
     }
-//*****
+
+    public boolean tieneValidacionInscripcionRegistrada(String correo, String codigoEvento) {
+        try (PreparedStatement stmt = connection.prepareStatement(SQL_OBTENER_VALIDACION_INSCRIPCION)) {
+            stmt.setString(1, correo);
+            stmt.setString(2, codigoEvento);
+            stmt.setBoolean(3, true);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                return resultSet.next();
+            }
+        } catch (SQLException e) {
+            System.out.println("Ha ocurrido una exception del tipo " + e.getClass().getName() + " al realizar una validación de existencia porque " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public boolean tienePagoRegistrado(String correo, String codigoEvento) {
         return verificarExistenciaDeTuplaConDosParametros(SQL_OBTENER_PAGO_REALIZADO, correo, codigoEvento);
@@ -124,7 +133,6 @@ public class DBQuery {
     public boolean participanteEsAsistente(String correo_participante) {
         return verificarExistenciaDeTuplaConDosParametros(SQL_OBTENER_TIPO_DE_PARTICIPANTE, correo_participante, "ASISTENTE");
     }
-//*****
 
     public boolean existeEvento(String codigoEvento) {
         return verificarExistenciaDeTuplaConUnParametro(SQL_OBTENER_EXISTENCIA_EVENTO, codigoEvento);
